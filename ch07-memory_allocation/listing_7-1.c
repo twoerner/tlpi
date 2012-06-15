@@ -1,5 +1,9 @@
 /*
  * Copyright (C) 2012  Trevor Woerner
+ *
+ * This program illustrates the effect of free() on the program break.
+ * This program allocates multiple blocks of memory and then frees some
+ * or all of them, depending on its (optional) cmdline args.
  */
 
 #include <stdio.h>

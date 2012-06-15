@@ -1,5 +1,8 @@
 /*
  * Copyright (C) 2012  Trevor Woerner
+ *
+ * This program uses the getresuid(), getresgid(), setfsuid() setfsgid(), getgroups()
+ * system calls to retrieve all of the process's user and group IDs.
  */
 
 #define _GNU_SOURCE

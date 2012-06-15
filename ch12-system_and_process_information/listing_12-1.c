@@ -1,5 +1,10 @@
 /*
  * Copyright (C) 2012  Trevor Woerner
+ *
+ * This program demonstrates how to read and modify a /proc file.
+ * This program reads and displays the contents of /proc/sys/kernel/pid_max.
+ * If a cmdline arg is supplied, the program updates the file using that value.
+ * This file (which is new in Linux 2.6) specifies an upper limit for proces IDs.
  */
 
 #include <stdio.h>

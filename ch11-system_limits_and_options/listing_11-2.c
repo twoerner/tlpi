@@ -1,5 +1,8 @@
 /*
  * Copyright (C) 2012  Trevor Woerner
+ *
+ * This program shows the use of fpathconf() to retrieve various
+ * system limits for the file referred to by its standard input.
  */
 
 #include <stdio.h>

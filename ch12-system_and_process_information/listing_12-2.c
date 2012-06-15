@@ -1,5 +1,7 @@
 /*
  * Copyright (C) 2012  Trevor Woerner
+ *
+ * This program displays the information returned by uname().
  */
 
 #define _GNU_SOURCE

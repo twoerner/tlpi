@@ -17,7 +17,7 @@ main (int argc, char *argv[])
 	struct passwd *pwinfo_p;
 
 	if (argc != 2) {
-		printf ("usage\n");
+		printf ("usage: %s <username>\n", argv[0]);
 		return 1;
 	}
 

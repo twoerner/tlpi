@@ -1,5 +1,8 @@
 /*
  * Copyright (C) 2012  Trevor Woerner
+ *
+ * This program asks the user for a username then a password using getpass().
+ * It then verifies the user's password using crypt().
  */
 
 #define _BSD_SOURCE

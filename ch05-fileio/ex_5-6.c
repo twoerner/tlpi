@@ -26,7 +26,7 @@ main (int argc, char *argv[])
 	int fd1, fd2, fd3;
 
 	if (argc != 2) {
-		fprintf (stderr, "usage\n");
+		fprintf (stderr, "usage: %s <output file>\n", argv[0]);
 		return 1;
 	}
 

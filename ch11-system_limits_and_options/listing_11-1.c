@@ -1,5 +1,8 @@
 /*
  * Copyright (C) 2012  Trevor Woerner
+ *
+ * This program demonstrates the use of sysconf() to display
+ * various system limits.
  */
 
 #include <stdio.h>
