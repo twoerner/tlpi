@@ -36,5 +36,6 @@ main (void)
 		printf ("%ld ", (long)grpList_p[i]);
 	printf ("\n");
 
+	free (grpList_p);
 	return 0;
 }
