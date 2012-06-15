@@ -19,6 +19,7 @@
 #include <stdbool.h>
 #include <string.h>
 #include <limits.h>
+#include <alloca.h>
 
 #include "ch12_util.h"
 
@@ -114,35 +115,53 @@ main (void)
 }
 
 static void
-print_proc_and_children (unsigned idx, unsigned level, unsigned *pList_p)
+print_proc_and_children (unsigned thisIdx, unsigned level, unsigned *pList_p)
 {
-	unsigned i;
+	unsigned i, chldIdx;
+	unsigned *list_p;
+
+	if (!procInfo_pG[thisIdx].valid)
+		return;
+	if (procInfo_pG[thisIdx].printed)
+		return;
 
 	// print this item
-	if (procInfo_pG[idx].valid && !procInfo_pG[idx].printed) {
-		if (level >= 1) {
-			for (i=0; i<level-1; ++i)
-				printf ("   ");
-			if (procInfo_pG[pIdx].chldPrinted == procInfo_pG[pIdx].chldCnt)
+	if (level >= 1) {
+		for (i=0; i<level; ++i) {
+			chldIdx = pList_p[i];
+			if (procInfo_pG[chldIdx].chldPrinted == procInfo_pG[chldIdx].chldCnt) {
 				printf ("  +");
+				++procInfo_pG[chldIdx].chldPrinted;
+			}
+			else if (procInfo_pG[chldIdx].chldPrinted > procInfo_pG[chldIdx].chldCnt)
+				printf ("   ");
 			else
 				printf ("  |");
 		}
-		printf ("- %-5u %-5u %s\n", procInfo_pG[idx].pid, procInfo_pG[idx].ppid, procInfo_pG[idx].name);
-		procInfo_pG[idx].printed = true;
-
-		// print the children
-		if (procInfo_pG[idx].chldCnt > 0) {
-			for (i=0; i<procInfoCnt_G; ++i)
-				if (procInfo_pG[i].ppid == procInfo_pG[idx].pid)
-					if (procInfo_pG[i].valid && !procInfo_pG[i].printed) {
-						++procInfo_pG[idx].chldPrinted;
-						print_proc_and_children (i, level+1, idx);
-					}
-		}
 	}
+	printf ("- %-5u %-5u %s\n", procInfo_pG[thisIdx].pid, procInfo_pG[thisIdx].ppid, procInfo_pG[thisIdx].name);
+	procInfo_pG[thisIdx].printed = true;
 
-	free (pList_p);
+	// print the children
+	if (procInfo_pG[thisIdx].chldCnt > 0) {
+		for (chldIdx=0; chldIdx<procInfoCnt_G; ++chldIdx)
+			if (procInfo_pG[chldIdx].ppid == procInfo_pG[thisIdx].pid)
+				if (procInfo_pG[chldIdx].valid && !procInfo_pG[chldIdx].printed) {
+					++procInfo_pG[thisIdx].chldPrinted;
+
+					list_p = alloca ((level + 1) * sizeof (unsigned));
+					if (list_p != NULL) {
+						for (i=0; i<level; ++i) {
+//fprintf (stderr, "[%u] adding %u\n", i, list_p[i]);
+							list_p[i] = pList_p[i];
+						}
+//fprintf (stderr, "adding %u\n", i);
+						list_p[i] = thisIdx;
+					}
+
+					print_proc_and_children (chldIdx, level+1, list_p);
+				}
+	}
 }
 
 static unsigned
