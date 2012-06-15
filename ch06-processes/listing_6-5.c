@@ -24,7 +24,7 @@ f1 (int argc)
 }
 
 int
-main (void)
+main (int argc, char *argv[])
 {
 	switch (setjmp (env_G)) {
 		case 0:

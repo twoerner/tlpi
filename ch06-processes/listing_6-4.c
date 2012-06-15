@@ -12,7 +12,7 @@
 extern char **environ;
 
 int
-main (void)
+main (int argc, char *argv[])
 {
 	int j;
 	char **pptr;
