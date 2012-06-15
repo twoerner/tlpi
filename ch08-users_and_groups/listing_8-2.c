@@ -17,6 +17,7 @@
 #include <limits.h>
 #include <pwd.h>
 #include <shadow.h>
+#include <alloca.h>
 
 int
 main (void)
@@ -32,9 +33,9 @@ main (void)
 	if (lnmax == -1)
 		lnmax = 256;
 
-	username_p = malloc (lnmax);
+	username_p = alloca (lnmax);
 	if (username_p == NULL) {
-		perror ("malloc()");
+		perror ("alloca()");
 		return 1;
 	}
 
