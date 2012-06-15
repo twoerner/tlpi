@@ -11,6 +11,7 @@
 #include <string.h>
 #include <stdlib.h>
 #include <fcntl.h>
+#include <limits.h>
 #include <unistd.h>
 
 #define MAX_LINE 100
@@ -18,9 +19,10 @@
 int
 main (int argc, char *argv[])
 {
-	int fd;
+	int fd, ilen;
 	char line[MAX_LINE];
 	ssize_t n;
+	size_t len;
 
 	fd = open ("/proc/sys/kernel/pid_max", (argc > 1)? O_RDWR : O_RDONLY);
 	if (fd == -1) {
@@ -39,7 +41,14 @@ main (int argc, char *argv[])
 	printf ("%.*s", (int)n, line);
 
 	if (argc > 1) {
-		if (write (fd, argv[1], strlen (argv[1])) != strlen (argv[1])) {
+		len = strlen (argv[1]);
+		if (len < INT_MAX)
+			ilen = (int)len;
+		else {
+			printf ("length of cmdline arg too long\n");
+			return 1;
+		}
+		if (write (fd, argv[1], strlen (argv[1])) != ilen) {
 			perror ("write()");
 			return 1;
 		}

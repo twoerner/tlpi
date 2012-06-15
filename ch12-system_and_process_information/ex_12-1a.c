@@ -24,7 +24,7 @@ static char **procDirs_G = NULL;
 static void get_proc_dirs (void);
 
 int
-main (int argc, char *argv[])
+main (void)
 {
 	unsigned i;
 

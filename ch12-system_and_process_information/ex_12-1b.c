@@ -21,7 +21,7 @@
 static void get_proc_dirs (unsigned *cnt_p, char ***procDirs_ppp);
 
 int
-main (int argc, char *argv[])
+main (void)
 {
 	unsigned i, cnt = 0;
 	char **procDirs_pp = NULL;
