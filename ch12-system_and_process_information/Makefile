@@ -1,5 +1,6 @@
 .PHONY: all clean
-ALL = listing_12-1 listing_12-2 ex_12-1 ex_12-1a ex_12-1b single_pointer ex_12-2 ex_12-2a
+ALL = listing_12-1 listing_12-2 ex_12-1 ex_12-1a ex_12-1b single_pointer ex_12-2 ex_12-2a \
+	ex_12-2b
 CFLAGS = -Wall -Wextra -Wconversion
 
 all: $(ALL)

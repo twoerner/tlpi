@@ -19,6 +19,7 @@
 #include <stdbool.h>
 #include <string.h>
 #include <limits.h>
+#include <alloca.h>
 
 #include "ch12_util.h"
 
@@ -117,18 +118,24 @@ static void
 print_proc_and_children (unsigned idx, unsigned level, unsigned *pList_p)
 {
 	unsigned i;
+	unsigned *list_p;
+
+if (pList_p)
+	for (i=0; i<level; ++i)
+		printf ("pList_p[%u] = %u\n", i, pList_p[i]);
 
 	// print this item
 	if (procInfo_pG[idx].valid && !procInfo_pG[idx].printed) {
+#if 0
 		if (level >= 1) {
 			for (i=0; i<level-1; ++i)
-				printf ("   ");
-			if (procInfo_pG[pIdx].chldPrinted == procInfo_pG[pIdx].chldCnt)
-				printf ("  +");
-			else
-				printf ("  |");
+				if (procInfo_pG[pList_p[i]].chldPrinted == procInfo_pG[pList_p[i]].chldCnt)
+					printf ("   ");
+				else
+					printf ("  |");
 		}
 		printf ("- %-5u %-5u %s\n", procInfo_pG[idx].pid, procInfo_pG[idx].ppid, procInfo_pG[idx].name);
+#endif
 		procInfo_pG[idx].printed = true;
 
 		// print the children
@@ -137,7 +144,13 @@ print_proc_and_children (unsigned idx, unsigned level, unsigned *pList_p)
 				if (procInfo_pG[i].ppid == procInfo_pG[idx].pid)
 					if (procInfo_pG[i].valid && !procInfo_pG[i].printed) {
 						++procInfo_pG[idx].chldPrinted;
-						print_proc_and_children (i, level+1, idx);
+						list_p = alloca ((level + 1) * sizeof (unsigned));
+						if (list_p != NULL) {
+							for (i=0; i<level; ++i)
+								list_p[i] = pList_p[i];
+							list_p[i] = idx;
+						}
+						print_proc_and_children (i, level+1, list_p);
 					}
 		}
 	}
