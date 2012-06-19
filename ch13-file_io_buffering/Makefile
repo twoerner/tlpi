@@ -1,5 +1,5 @@
 .PHONY: all clean
-ALL = listing_13-1
+ALL = listing_13-1 ex_13-5
 CFLAGS = -Wall -Wextra -Wshadow -Werror
 
 all: $(ALL)
