@@ -1,0 +1,54 @@
+The examples in listing_14-1 assume you have a free disk partition to play with.
+If this is not the case, losetup can be used to create a disk with which to play.
+
+$ su
+Password:
+# dd if=/dev/zero of=disk bs=1024 count=10k
+10240+0 records in
+10240+0 records out
+10485760 bytes (10 MB) copied, 0.0224681 s, 467 MB/s
+# losetup --show -f disk
+/dev/loop0
+# mke2fs /dev/loop0
+mke2fs 1.41.14 (22-Dec-2010)
+Filesystem label=
+OS type: Linux
+Block size=1024 (log=0)
+Fragment size=1024 (log=0)
+Stride=0 blocks, Stripe width=0 blocks
+2560 inodes, 10240 blocks
+512 blocks (5.00%) reserved for the super user
+First data block=1
+Maximum filesystem blocks=10485760
+2 block groups
+8192 blocks per group, 8192 fragments per group
+1280 inodes per group
+Superblock backups stored on blocks: 
+        8193
+
+Writing inode tables: done                            
+Writing superblocks and filesystem accounting information: done
+
+This filesystem will be automatically checked every 31 mounts or
+180 days, whichever comes first.  Use tune2fs -c or -i to override.
+# 
+
+At this point you can substitute "/dev/loop0" for any occurrences of
+"/dev/sdaXX" in the examples
+
+When you are done, to cleanup:
+# umount <mount dir>
+# rmdir <mount dir>
+# losetup -d /dev/loop0
+# rm disk
+
+NOTE!
+	If /dev/loop0 is already busy when you run "losetup --show -f disk"
+	losetup will print out whichever loop device it used. E.g. /dev/loop1,
+	etc. If this happens you'll need to substitute whichever loop device
+	losetup uses in all these examples.
+
+e.g.
+# mkdir testfs
+# ./listing_14-1 -t ext2 -o bsdgroups /dev/loop0 testfs
+# cat /proc/mounts | grep loop0
