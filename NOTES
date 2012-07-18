@@ -1,0 +1,14 @@
+Wow, am I ever making a mess of this public git repository!
+Oh well, that's half the fun of learning :-)
+
+It appears that the strategy I want to employ is the following:
+- do work-in-progress stuff on the "wip" branch
+- commit to the "wip" branch any old garbage -- i.e. doesn't have to compile
+- when done with a program, commit its fully working version to "wip"
+- switch to "master" branch
+- perform:
+	(master)$ git merge --squash wip
+	(master)$ git commit -av
+- now doing something like "git show-branch" or "gitk" will show a "wip" branch
+  with all the intermediate work leading up the final product, and a "master"
+  branch will all the final work
