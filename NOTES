@@ -11,4 +11,8 @@ It appears that the strategy I want to employ is the following:
 	(master)$ git commit -av
 - now doing something like "git show-branch" or "gitk" will show a "wip" branch
   with all the intermediate work leading up the final product, and a "master"
-  branch will all the final work
+  branch with all the final work only
+
+- if I then want to input a bunch of listings, irregardless of the fact they
+  don't really need wips, put them on the wip branch and squash-commit them
+  onto the master
