@@ -1,7 +1,7 @@
 /*
  * Copyright (C) 2012  Trevor Woerner
  *
- * Write programs that verify the effect of the SA_RESETHAND and SA_NOREFER
+ * Write programs that verify the effect of the SA_RESETHAND and SA_NODEFER
  * flags when establishing a signal handler with sigaction().
  */
 
