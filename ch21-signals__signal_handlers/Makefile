@@ -1,5 +1,5 @@
 .PHONY: all clean
-ALL = listing_21-1 listing_21-2a listing_21-2b
+ALL = listing_21-1 listing_21-2a listing_21-2b listing_21-3
 CFLAGS = -Wall -Wextra -Wshadow -Werror -Wwrite-strings -I../ch20-signals_fundamental_concepts
 LDFLAGS = -lcrypt
 
