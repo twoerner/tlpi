@@ -24,7 +24,7 @@
 // set to 0 or 1
 #define USE_SIGINFO 0
 // set to 0 or 1
-#define EMPTY_MASK 1
+#define EMPTY_MASK 0
 
 #if (USE_SIGINFO == 1)
 #define UNUSED __attribute__((unused))
