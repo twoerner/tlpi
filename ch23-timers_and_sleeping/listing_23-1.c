@@ -13,6 +13,9 @@
 #include <time.h>
 #include <sys/time.h>
 
+// set to 0 or 1
+#define USE_SETITIMER 0		// setting this to 1 d/n work
+
 static volatile sig_atomic_t gotAlarm_G = 0;
 
 static void display_times (const char *msg_p, bool includeTimer);
@@ -110,8 +113,13 @@ display_times (const char *msg_p, bool includeTimer)
 	printf ("%-7s %6.2f", msg_p, curr.tv_sec - start.tv_sec + (curr.tv_usec - start.tv_usec) / 1000000.0);
 
 	if (includeTimer) {
+#if (USE_SETITIMER == 1)
+		if (setitimer (ITIMER_REAL, NULL, &itv) == -1) {
+			perror ("setitimer()");
+#else
 		if (getitimer (ITIMER_REAL, &itv) == -1) {
 			perror ("getitimer()");
+#endif
 			exit (1);
 		}
 		printf ("\t%6.2f %6.2f",
