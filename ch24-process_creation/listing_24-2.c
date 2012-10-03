@@ -27,6 +27,7 @@ main (void)
 		perror ("mkstemp()");
 		return 1;
 	}
+	unlink (template);
 
 	printf ("file offset before fork(): %lld\n", (long long)lseek (fd, 0, SEEK_CUR));
 
