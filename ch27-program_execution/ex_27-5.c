@@ -11,7 +11,7 @@
 int
 main (void)
 {
-	printf ("Hello, world!\n");
+	printf ("Hello, world!");
 	execlp ("sleep", "sleep", "0", NULL);
 	return 1;
 }
