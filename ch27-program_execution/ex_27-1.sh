@@ -11,7 +11,7 @@ cat > dir2/xyz <<EOF
 echo "dir2"
 EOF
 
-chmod +x dir1/xyz dir2/xyz
+chmod +x dir2/xyz
 
 export PATH=/usr/local/bin:/usr/bin:/bin:./dir1:./dir2
 ./listing_27-3 xyz
