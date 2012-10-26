@@ -33,11 +33,11 @@ static Thread_t *tArr_pG;
 static void *
 thread_func (void *arg_p)
 {
-	unsigned idx = (unsigned)arg_p;
+	unsigned long idx = (unsigned long)arg_p;
 	int ret;
 
 	sleep (tArr_pG[idx].sleepTime);
-	printf ("thread %d terminating\n", idx);
+	printf ("thread %ld terminating\n", idx);
 
 	ret = pthread_mutex_lock (&threadMutex_G);
 	if (ret != 0) {
@@ -66,7 +66,7 @@ thread_func (void *arg_p)
 int
 main (int argc, char *argv[])
 {
-	unsigned idx;
+	unsigned long idx;
 	int ret;
 
 	if (argc < 2 || strcmp (argv[1], "--help") == 0) {
@@ -84,7 +84,7 @@ main (int argc, char *argv[])
 	for (idx=0; idx<(unsigned)argc-1; ++idx) {
 		tArr_pG[idx].sleepTime = atoi (argv[idx + 1]);
 		if (tArr_pG[idx].sleepTime <= 0) {
-			printf ("please specify positive sleep times %d[%d]\n", tArr_pG[idx].sleepTime, idx);
+			printf ("please specify positive sleep times %d[%ld]\n", tArr_pG[idx].sleepTime, idx);
 			return 1;
 		}
 		tArr_pG[idx].state = TS_ALIVE;
@@ -126,7 +126,7 @@ main (int argc, char *argv[])
 				--liveCnt_G;
 				--unjoinedCnt_G;
 
-				printf ("reaped thread %d (liveCnt_G:%d)\n", idx, liveCnt_G);
+				printf ("reaped thread %ld (liveCnt_G:%d)\n", idx, liveCnt_G);
 			}
 		}
 
