@@ -1,6 +1,9 @@
 /*
  * Copyright (C) 2012  Trevor Woerner
- *
+ * (see LICENSE file included in this repository)
+ */
+
+/*
  * The command 'tail [-n <num>] <file>' prints the last <num> (10 by default) lines of the
  * named <file>. Implement this command using I/O system calls (lseek(), read(), write(),
  * and so on). Keep in mind the buffering issues described in this chapter, in order to

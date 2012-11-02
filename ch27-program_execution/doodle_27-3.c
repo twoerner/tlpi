@@ -1,6 +1,9 @@
 /*
  * Copyright (C) 2012  Trevor Woerner
- *
+ * (see LICENSE file included in this repository)
+ */
+
+/*
  * What does the exec()'ed program do when fd's 0, 1, and 2 are
  * already closed when it is called?
  *

@@ -1,6 +1,9 @@
 /*
  * Copyright (C) 2012  Trevor Woerner
- *
+ * (see LICENSE file included in this repository)
+ */
+
+/*
  * Suppose a parent process has established a handler for SIGCHLD and also
  * blocked this signal. Subsequently, one of its children exits, and the
  * parent then does a wait() to collect the child's status. What happens when

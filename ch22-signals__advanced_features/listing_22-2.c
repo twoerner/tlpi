@@ -1,6 +1,12 @@
 /*
- * Copyright (C) 2012  Trevor Woerner
+ * Copyright (C) 2012, Michael Kerrisk
+ * Licensed under the GNU Affero General Public License, version 3
  *
+ * this program contains tweaks by Trevor Woerner
+ * (see LICENSE file included in this repository)
+ */
+
+/*
  * This program demonstrates sending a realtime signal using sigqueue().
  * It takes up to 4 cmdline args, of which the first 3 are mandatory:
  *	- target PID

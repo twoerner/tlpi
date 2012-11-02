@@ -1,6 +1,12 @@
 /*
- * Copyright (C) 2012  Trevor Woerner
+ * Copyright (C) 2012, Michael Kerrisk
+ * Licensed under the GNU Affero General Public License, version 3
  *
+ * this program contains tweaks by Trevor Woerner
+ * (see LICENSE file included in this repository)
+ */
+
+/*
  * This program provides a cmdline-level interface to the mount(2)
  * system call. In effect, it is a crude version of the mount(8) command. The following
  * shell session log demonstrates the use of this program. We begin by creating a

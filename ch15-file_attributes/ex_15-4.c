@@ -1,6 +1,9 @@
 /*
  * Copyright (C) 2012  Trevor Woerner
- *
+ * (see LICENSE file included in this repository)
+ */
+
+/*
  * The access(2) system call checks permissions using the process's real user and group
  * IDs. Write a corresponding function that performs the checks according to the
  * process's effective user and group IDs.

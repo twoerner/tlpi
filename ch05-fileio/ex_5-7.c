@@ -1,6 +1,9 @@
 /*
  * Copyright (C) 2012  Trevor Woerner
- *
+ * (see LICENSE file included in this repository)
+ */
+
+/*
  * Implement readv() and writev() using read(), write(), and suitable functions from the
  * 'malloc' package.
  */

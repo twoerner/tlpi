@@ -1,6 +1,9 @@
 /*
  * Copyright (C) 2012  Trevor Woerner
- *
+ * (see LICENSE file included in this repository)
+ */
+
+/*
  * What happens if the disposition of SIGCHLD is set to SIG_IGN
  * (thereby eliminating zombies) but the parent calls waitpid()?
  */

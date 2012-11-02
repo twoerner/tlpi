@@ -1,6 +1,9 @@
 /*
  * Copyright (C) 2012  Trevor Woerner
- *
+ * (see LICENSE file included in this repository)
+ */
+
+/*
  * Incorrectly incrementing a global variable from two threads
  * (with updates as per exercise 30-1).
  */

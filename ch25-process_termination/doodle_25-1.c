@@ -1,6 +1,9 @@
 /*
  * Copyright (C) 2012  Trevor Woerner
- *
+ * (see LICENSE file included in this repository)
+ */
+
+/*
  * Interactions between fork(), stdio buffers, exec(), and _exit().
  *
  * Compare/contrast the output from Listing 25-2 versus the output from this

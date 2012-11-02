@@ -1,6 +1,9 @@
 /*
  * Copyright (C) 2012  Trevor Woerner
- *
+ * (see LICENSE file included in this repository)
+ */
+
+/*
  * Listing 26-4 uses sleep() to allow the child process a chance to execute
  * and terminate before the parent executes system(). This approach introduces
  * a potential race condition. Rewrite the program to eliminate this race

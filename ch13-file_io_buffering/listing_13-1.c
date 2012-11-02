@@ -1,5 +1,12 @@
 /*
- * Copyright (C) 2012  Trevor Woerner
+ * Copyright (C) 2012, Michael Kerrisk
+ * Licensed under the GNU Affero General Public License, version 3
+ *
+ * this program contains tweaks by Trevor Woerner
+ * (see LICENSE file included in this repository)
+ */
+
+/*
  *
  * This program provides a simple example of the use of O_DIRECT while opening a file
  * for reading. This program takes up to 4 cmdline args specifying:

@@ -1,6 +1,9 @@
 /*
  * Copyright (C) 2012  Trevor Woerner
- *
+ * (see LICENSE file included in this repository)
+ */
+
+/*
  * Write programs that verify the effect of the SA_RESETHAND and SA_NODEFER
  * flags when establishing a signal handler with sigaction().
  */

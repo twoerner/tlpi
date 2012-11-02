@@ -1,6 +1,12 @@
 /*
- * Copyright (C) 2012  Trevor Woerner
+ * Copyright (C) 2012, Michael Kerrisk
+ * Licensed under the GNU Affero General Public License, version 3
  *
+ * this program contains tweaks by Trevor Woerner
+ * (see LICENSE file included in this repository)
+ */
+
+/*
  * This program uses stat() to retrieve information about the file named
  * on the cmdline. If the '-l' cmdline option is specified, then the program
  * will use lstat() instead of stat() to retrieve the information. The program

@@ -1,6 +1,12 @@
 /*
- * Copyright (C) 2012  Trevor Woerner
+ * Copyright (C) 2012, Michael Kerrisk
+ * Licensed under the GNU Affero General Public License, version 3
  *
+ * this program contains tweaks by Trevor Woerner
+ * (see LICENSE file included in this repository)
+ */
+
+/*
  * This program retrieves and displays the names and values of all EAs of the
  * files listed on its cmdline. By default attribute values are displayed as
  * plain text. If the '-x' option is supplied, the attribute values are

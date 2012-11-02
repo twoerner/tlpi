@@ -1,6 +1,9 @@
 /*
  * Copyright (C) 2012  Trevor Woerner
- *
+ * (see LICENSE file included in this repository)
+ */
+
+/*
  * Write a program to demonstrate that different threads in the same process
  * can have different sets of pending signals, as returned by sigpending().
  * You can do this by using pthread_kill() to send different signals to two

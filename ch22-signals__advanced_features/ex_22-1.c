@@ -1,6 +1,9 @@
 /*
  * Copyright (C) 2012  Trevor Woerner
- *
+ * (see LICENSE file included in this repository)
+ */
+
+/*
  * Section 22.2 noted that if a stopped process that has established a handler
  * for and blocked SIGCONT is later resumed as a consequence of receiving a
  * SIGCONT, then the handler is invoked only when SIGCONT is unblocked. Write

@@ -1,6 +1,9 @@
 /*
  * Copyright (C) 2012  Trevor Woerner
- *
+ * (see LICENSE file included in this repository)
+ */
+
+/*
  * Suppose that a thread creates a child using fork(). When the child
  * terminates, is it guarenteed that the resulting SIGCHLD signal will be
  * delivered to the thread that called fork() (as opposed to some other thread

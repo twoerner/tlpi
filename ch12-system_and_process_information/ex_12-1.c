@@ -1,6 +1,9 @@
 /*
  * Copyright (C) 2012  Trevor Woerner
- *
+ * (see LICENSE file included in this repository)
+ */
+
+/*
  * Write a program that lists the process ID and command name for all processes
  * being run by the user named in the program's command-line argument. This can
  * be done by inspecting the 'Name:' and 'Uid:' lines of all of the /proc/PID/status files on

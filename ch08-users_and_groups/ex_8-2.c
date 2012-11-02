@@ -1,8 +1,11 @@
 /*
  * Copyright (C) 2012  Trevor Woerner
+ * (see LICENSE file included in this repository)
  */
 
-// implement getpwnam() using setpwent(), getpwent(), and endpwent()
+/*
+ * implement getpwnam() using setpwent(), getpwent(), and endpwent()
+ */
 
 #include <stdio.h>
 #include <string.h>

@@ -1,6 +1,9 @@
 /*
  * Copyright (C) 2012  Trevor Woerner
- *
+ * (see LICENSE file included in this repository)
+ */
+
+/*
  * Section 22.10 stated that accepting signals using sigwaitinfo() is faster
  * than the use of a signal handler plus sigsuspend(). Write two programs
  * to implement each approach which exchange a million signals between a

@@ -1,6 +1,12 @@
 /*
- * Copyright (C) 2012  Trevor Woerner
+ * Copyright (C) 2012, Michael Kerrisk
+ * Licensed under the GNU Affero General Public License, version 3
  *
+ * this program contains tweaks by Trevor Woerner
+ * (see LICENSE file included in this repository)
+ */
+
+/*
  * This program demonstrates the use of strptime() and strftime(). This program takes a
  * cmdline arg containing a date and time, converts it to a broken-down
  * time using strptime(), and then displays the result of performing the reverse conversion

@@ -1,6 +1,12 @@
 /*
- * Copyright (C) 2012  Trevor Woerner
+ * Copyright (C) 2012, Michael Kerrisk
+ * Licensed under the GNU Affero General Public License, version 3
  *
+ * this program contains tweaks by Trevor Woerner
+ * (see LICENSE file included in this repository)
+ */
+
+/*
  * This program shows various types of C variables along with comments indicating in
  * which segment each variable is located. These comments assume a nonoptimizing
  * compiler and an ABI in which all arguments are passed on the stack.

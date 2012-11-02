@@ -1,6 +1,12 @@
 /*
- * Copyright (C) 2012  Trevor Woerner
+ * Copyright (C) 2012, Michael Kerrisk
+ * Licensed under the GNU Affero General Public License, version 3
  *
+ * this program contains tweaks by Trevor Woerner
+ * (see LICENSE file included in this repository)
+ */
+
+/*
  * This program accepts 2 cmdline args: the first gives the name of the
  * filename to create, and the second optionally specifies the number of 1kB
  * blocks to write (100,000 otherwise). The program opens the specified file

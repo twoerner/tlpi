@@ -1,6 +1,9 @@
 /*
  * Copyright (C) 2012  Trevor Woerner
- *
+ * (see LICENSE file included in this repository)
+ */
+
+/*
  * As noted in Section 20.3, sigaction() is more portable than signal() for
  * establishing a signal handler. Replace the use of signal() by sigaction()
  * in listing_20-7.

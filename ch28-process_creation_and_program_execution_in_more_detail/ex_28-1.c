@@ -1,6 +1,9 @@
 /*
  * Copyright (C) 2012  Trevor Woerner
- *
+ * (see LICENSE file included in this repository)
+ */
+
+/*
  * Write a program to see how fast the fork() and vfork() system calls are on
  * your system. Each child process should immediately exit, and the parent
  * should wait() on each child before creating the next.

@@ -1,6 +1,9 @@
 /*
  * Copyright (C) 2012  Trevor Woerner
- *
+ * (see LICENSE file included in this repository)
+ */
+
+/*
  * In section 4.3.2 we noted that it is not possible to open a file for writing
  * if it is currenting being executed (open() returns -1 with errno = ETXTBSY).
  * Nevertheless, it is possible to do the following from the shell:

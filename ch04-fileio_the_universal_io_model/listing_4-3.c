@@ -1,6 +1,12 @@
 /*
- * Copyright (C) 2012  Trevor Woerner
+ * Copyright (C) 2012, Michael Kerrisk
+ * Licensed under the GNU Affero General Public License, version 3
  *
+ * this program contains tweaks by Trevor Woerner
+ * (see LICENSE file included in this repository)
+ */
+
+/*
  * This program demonstrates the use of lseek() in conjunction with read() and write().
  * The first command-line argument to this program is the name of the file to be
  * opened. The remaining arguments specify I/O operations to be performed on the

@@ -1,6 +1,9 @@
 /*
  * Copyright (C) 2012  Trevor Woerner
- *
+ * (see LICENSE file included in this repository)
+ */
+
+/*
  * Implement a function that performs the equivalent of getcwd().
  *
  * A useful tip for solving this problem is that you can find the name of the

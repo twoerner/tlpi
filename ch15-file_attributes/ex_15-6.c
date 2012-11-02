@@ -1,6 +1,9 @@
 /*
  * Copyright (C) 2012  Trevor Woerner
- *
+ * (see LICENSE file included in this repository)
+ */
+
+/*
  * The "chmod a+rX <file>" command enables read permission for all categories of user,
  * and likewise enables execute permission for all categories of user if <file> is a directory
  * or execute permission is enabled for any of the user categories for <file>, as

@@ -1,6 +1,9 @@
 /*
  * Copyright (C) 2012  Trevor Woerner
- *
+ * (see LICENSE file included in this repository)
+ */
+
+/*
  * Write a program to show that if the evp argument to timer_create() is
  * specified as NULL, then this is equivalent to specifying evp as a pointer
  * to a sigevent structure with sigev_notify set to SIGEV_SIGNAL, sigev_signo

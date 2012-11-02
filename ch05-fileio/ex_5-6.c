@@ -1,6 +1,9 @@
 /*
  * Copyright (C) 2012  Trevor Woerner
- *
+ * (see LICENSE file included in this repository)
+ */
+
+/*
  * After each of the calls to write() in the following code, explain what the contents of
  * the output file would be, and why:
  *

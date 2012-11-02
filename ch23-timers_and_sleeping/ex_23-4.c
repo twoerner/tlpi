@@ -1,6 +1,9 @@
 /*
  * Copyright (C) 2012  Trevor Woerner
- *
+ * (see LICENSE file included in this repository)
+ */
+
+/*
  * Modify the program in Listing 23-5 to use sigwaitinfo() instead of a
  * signal handler.
  */

@@ -1,6 +1,9 @@
 /*
  * Copyright (C) 2012  Trevor Woerner
- *
+ * (see LICENSE file included in this repository)
+ */
+
+/*
  * Although alarm() is implemented as a system call within the Linux kernel,
  * this is redundant. Implement alarm() using setitimer().
  */

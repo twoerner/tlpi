@@ -1,6 +1,9 @@
 /*
  * Copyright (C) 2012  Trevor Woerner
- *
+ * (see LICENSE file included in this repository)
+ */
+
+/*
  * Write a program that uses nftw() to traverse a directory tree and finishes
  * by printing out counts and percentages of the various types (regular,
  * directory, symbolic link, and so on) of the files in the tree.

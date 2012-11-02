@@ -1,6 +1,9 @@
 /*
  * Copyright (C) 2012  Trevor Woerner
- *
+ * (see LICENSE file included in this repository)
+ */
+
+/*
  * Write a simple version of the chattr(1) command, which modifies file i-node flags.
  * See the chattr(1) man page for details of the "chattr" cmdline interface. You don't
  * need to implement the -R, -V, and -v options.

@@ -1,6 +1,9 @@
 /*
  * Copyright (C) 2012  Trevor Woerner
- *
+ * (see LICENSE file included in this repository)
+ */
+
+/*
  * On a system running Linux 2.6, modify the program in listing_15-1 so
  * that the file timestamps are displayed with nanosecond accuracy.
  */

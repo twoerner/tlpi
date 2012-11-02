@@ -1,0 +1,65 @@
+This is my code from reading the (wonderful) book:
+	The Linux Programming Interface : a Linux and UNIX system programming handbook
+	by Michael Kerrisk
+	2010
+	ISBN-10: 1-59327-220-0
+	ISBN-13: 978-1-59327-220-3
+	No Starch Press Inc
+
+Any code named: listing_<ch>-<i>.* (e.g. listing_34-1.c)
+	Comes directly from the printed version of the book. Each chapter
+	contains numerous example listings to further clarify the concepts
+	being explained in the in-line text. Although these listings are not
+	100% verbatim copies of Michael's work (I tend to rewrite the code
+	a bit to change variable names, or re-order the code somewhat, or
+	perhaps "play" with the code) for the most part it is very similar
+	to what is found in the book.
+
+	It is safe to say these files are mostly Michael's work and as such
+	continue to list him and his chosen licenses.
+
+Any code named: ex_<ch>-<i>.* (e.g. ex_26-1.c)
+	Are my attempts at solutions to the various suggested exercises at the
+	ends of the given chapters. Sometimes my code works, sometimes it
+	doesn't. Sometimes I solve exactly the question being asked, sometimes
+	I only do part of it, sometimes I do more than asked.
+
+	Since these represent my own work they're basically licensed in my
+	name. For such short snippets I generally prefer a zero-clause
+	BSD-style license. I really don't care if you put my name on your
+	250,000 line project just because you borrowed 5 lines of code from
+	something I wrote. In fact, I'd prefer you don't. By the same token,
+	I don't want you blaming me if your project fails because of the 5
+	lines of my code you borrowed.
+
+	If you're confused about how to use dup2() and want to use something
+	I wrote here as a basis for your own work, go ahead. If I've made a
+	mistake I'd appreciate knowing about it, but you shouldn't feel
+	required to publicly fork my code and add your fix. Just don't blame
+	me if it does something bad for you since you're the one taking this
+	code out of context.
+
+Any other files (e.g. doodle_28-1.c)
+	Are examples of me not quite fully understanding something and wanting
+	to test things out with a real system/compiler/OS, etc.
+
+	As with my exercise solutions, these aren't "real" programs and if you
+	need to borrow a line or two, go ahead, just don't blame me for
+	anything that my result from you taking my code out of context (zero-
+	clause BSD-style).
+
+So what is a zero-clause BSD-style license? Basically just the following parts
+of the BSD-license:
+
+	THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
+	ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
+	WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+	DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR
+	ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
+	(INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
+	LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND
+	ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+	(INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+	SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+
+I don't care if you retain this copyright notice in your code.

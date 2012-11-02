@@ -1,6 +1,12 @@
 /*
- * Copyright (C) 2012  Trevor Woerner
+ * Copyright (C) 2012, Michael Kerrisk
+ * Licensed under the GNU Affero General Public License, version 3
  *
+ * this program contains tweaks by Trevor Woerner
+ * (see LICENSE file included in this repository)
+ */
+
+/*
  * This program demonstrates the close-on-exec flag. Depending on the presence
  * of a cmdline argument (anything) this program first sets the close-on-exec
  * flag for stdout and then exec()s the 'ls' program:

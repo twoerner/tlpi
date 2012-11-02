@@ -1,6 +1,9 @@
 /*
  * Copyright (C) 2012  Trevor Woerner
- *
+ * (see LICENSE file included in this repository)
+ */
+
+/*
  * Modify the program in listing 18-2 to use readdir_r() instead of readdir().
  */
 

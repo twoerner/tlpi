@@ -1,6 +1,12 @@
 /*
- * Copyright (C) 2012  Trevor Woerner
+ * Copyright (C) 2012, Michael Kerrisk
+ * Licensed under the GNU Affero General Public License, version 3
  *
+ * this program contains tweaks by Trevor Woerner
+ * (see LICENSE file included in this repository)
+ */
+
+/*
  * This program demonstrates the use of some of the ACL library functions. It
  * retrieves and displays the ACL on a file (i.e. it provides a subset of the
  * functionality of the "getfacl" command). If the '-d' cmdline option is

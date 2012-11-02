@@ -1,6 +1,12 @@
 /*
- * Copyright (C) 2012  Trevor Woerner
+ * Copyright (C) 2012, Michael Kerrisk
+ * Licensed under the GNU Affero General Public License, version 3
  *
+ * this program contains tweaks by Trevor Woerner
+ * (see LICENSE file included in this repository)
+ */
+
+/*
  * Demonstration that open file descriptors after a fork() are shared and
  * point to the same file description entry (meaning, for example, that if
  * the read() offset is updated in one process, the other sees the change

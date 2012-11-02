@@ -1,6 +1,9 @@
 /*
  * Copyright (C) 2012  Trevor Woerner
- *
+ * (see LICENSE file included in this repository)
+ */
+
+/*
  * Write a program that draws a tree showing the hierarchical parent-child
  * relationships of all processes on a system, going all the way back to 'init'. For each
  * process, the program should display the process ID, and the command being

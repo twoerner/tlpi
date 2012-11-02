@@ -1,6 +1,9 @@
 /*
  * Copyright (C) 2012  Trevor Woerner
- *
+ * (see LICENSE file included in this repository)
+ */
+
+/*
  * Implement dup() and dup2() using fcntl() and, where necessary, close(). (You may
  * ignore the fact that dup2() and fcntl() return different 'errno' values for some error
  * cases.) For dup2(), remember to handle the special case where 'oldfd' equals 'newfd'. In

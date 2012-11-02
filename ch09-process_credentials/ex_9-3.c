@@ -1,6 +1,9 @@
 /*
  * Copyright (C) 2012  Trevor Woerner
- *
+ * (see LICENSE file included in this repository)
+ */
+
+/*
  * Implement initgroups() using getgroups() and library functions for retrieving
  * information from the passwd and group files (Section 8.4). Remember that a
  * process must be priviledged in order to be able to call setgroups().

@@ -1,6 +1,12 @@
 /*
- * Copyright (C) 2012  Trevor Woerner
+ * Copyright (C) 2012, Michael Kerrisk
+ * Licensed under the GNU Affero General Public License, version 3
  *
+ * this program contains tweaks by Trevor Woerner
+ * (see LICENSE file included in this repository)
+ */
+
+/*
  * This program demonstrates that when the shell receives SIGHUP, it in turn
  * sends SIGHUP to the jobs it has created. If the program is given an
  * optional cmdline arg (anything will do), the child places itself in a

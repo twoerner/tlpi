@@ -1,6 +1,9 @@
 /*
  * Copyright (C) 2012  Trevor Woerner
- *
+ * (see LICENSE file included in this repository)
+ */
+
+/*
  * Write a program that displays the permissions from the ACL entry that
  * corresponds to a particular user or group. The program should take two
  * cmdline args:

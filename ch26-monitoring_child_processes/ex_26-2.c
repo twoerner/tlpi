@@ -1,6 +1,9 @@
 /*
  * Copyright (C) 2012  Trevor Woerner
- *
+ * (see LICENSE file included in this repository)
+ */
+
+/*
  * Suppose that we have three processes related as grandparent, parent, and
  * child, and that the grandparent doesn't immediately perform a wait() after
  * the parents exits, so that the parent becomes a zombie. When do you expect

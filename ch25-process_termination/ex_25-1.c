@@ -1,6 +1,9 @@
 /*
  * Copyright (C) 2012  Trevor Woerner
- *
+ * (see LICENSE file included in this repository)
+ */
+
+/*
  * If a child process makes the call exit(-1), what exit status (as returned
  * by WEXITSTATUS()) will be seen by the parent?
  */

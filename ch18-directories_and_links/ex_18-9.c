@@ -1,6 +1,9 @@
 /*
  * Copyright (C) 2012  Trevor Woerner
- *
+ * (see LICENSE file included in this repository)
+ */
+
+/*
  * In section 18.10 we showed two different techniques (using fchdir() and
  * chdir() respectively) to return to the previous current working directory
  * after changing the current working directory to another location. Suppose

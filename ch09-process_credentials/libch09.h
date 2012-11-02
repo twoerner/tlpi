@@ -1,5 +1,9 @@
 /*
- * Copyright (C) 2012  Trevor Woerner
+ * Copyright (C) 2012, Michael Kerrisk
+ * Licensed under the GNU Lesser General Public License (Version 3) 
+ *
+ * this program contains tweaks by Trevor Woerner
+ * (see LICENSE file included in this repository)
  */
 
 #ifndef TLPI_LIBCH09__H

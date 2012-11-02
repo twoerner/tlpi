@@ -1,6 +1,9 @@
 /*
  * Copyright (C) 2012  Trevor Woerner
- *
+ * (see LICENSE file included in this repository)
+ */
+
+/*
  * If both a realtime and a standard signal are pending for a process SUSv3
  * leaves it unspecified which is delivered first. Write a program to show
  * what Linux does in this case.

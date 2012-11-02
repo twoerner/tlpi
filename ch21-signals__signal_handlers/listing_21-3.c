@@ -1,6 +1,12 @@
 /*
- * Copyright (C) 2012  Trevor Woerner
+ * Copyright (C) 2012, Michael Kerrisk
+ * Licensed under the GNU Affero General Public License, version 3
  *
+ * this program contains tweaks by Trevor Woerner
+ * (see LICENSE file included in this repository)
+ */
+
+/*
  * Demonstrates the establishment and use of an alternate signal stack. After
  * establishing an alternate signal stack and a handler for SIGSEGV, this
  * program calls a function that infinitely recurses so that the stack,

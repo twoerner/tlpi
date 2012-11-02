@@ -1,6 +1,9 @@
 /*
  * Copyright (C) 2012  Trevor Woerner
- *
+ * (see LICENSE file included in this repository)
+ */
+
+/*
  * Try running the program in Listing 23-3 in the background with a 60-second
  * sleep interval, while using the following command to send as many SIGINT
  * signals as possible to the background process:

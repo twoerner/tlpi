@@ -1,6 +1,9 @@
 /*
  * Copyright (C) 2012  Trevor Woerner
- *
+ * (see LICENSE file included in this repository)
+ */
+
+/*
  * Write a program that measures the time required to create and then remove a
  * large number of 1-byte files from a single directory. The program should create
  * files with names of the form xNNNNNN, where NNNNNN is replaced by a random six-digit

@@ -1,6 +1,9 @@
 /*
  * Copyright (C) 2012  Trevor Woerner
- *
+ * (see LICENSE file included in this repository)
+ */
+
+/*
  * Write a program that can be used to create or modify a _user_ EA for a file
  * (i.e. a simple version of setfattr(1)). The filename and the EA name/value
  * should be supplied as cmdline args.

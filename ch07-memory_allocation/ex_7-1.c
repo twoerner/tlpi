@@ -1,6 +1,9 @@
 /*
  * Copyright (C) 2012  Trevor Woerner
- *
+ * (see LICENSE file included in this repository)
+ */
+
+/*
  * Modify the program in listing 7-1 to print out the current value of
  * the program break after each execution of malloc(). Run the program specifying a
  * small allocation block size. This will demonstrate that malloc() doesn't emply sbrk()

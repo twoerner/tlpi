@@ -1,6 +1,9 @@
 /*
  * Copyright (C) 2012  Trevor Woerner
- *
+ * (see LICENSE file included in this repository)
+ */
+
+/*
  * Write a program that lists all process that have a particular file pathname open.
  * This can be achieved by inspecting the contents of all of the /proc/PID/fd/<asterisk> symbolic
  * links. This will require nested loops employing readdir(3) to scan all /proc/PID

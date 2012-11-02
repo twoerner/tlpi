@@ -1,6 +1,9 @@
 /*
  * Copyright (C) 2012  Trevor Woerner
- *
+ * (see LICENSE file included in this repository)
+ */
+
+/*
  * Write a program to verify that when a child's parent terminates, a call to
  * getpid() returns 1 (i.e. the child process was orphaned and adopted by the
  * init process).

@@ -1,6 +1,9 @@
 /*
  * Copyright (C) 2012  Trevor Woerner
- *
+ * (see LICENSE file included in this repository)
+ */
+
+/*
  * Implement a function, one_time_init(control, init), that performs the
  * equivalent of pthread_once(). The control argument should be a pointer
  * to a statically allocated structure containing a boolean variable and a

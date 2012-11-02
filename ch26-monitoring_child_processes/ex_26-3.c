@@ -1,6 +1,9 @@
 /*
  * Copyright (C) 2012  Trevor Woerner
- *
+ * (see LICENSE file included in this repository)
+ */
+
+/*
  * Replace the use of waitpid() in listing 26-3 with waitid(). The call to
  * print_wait_status() will need to be replaced by code that prints relevant
  * fields from the siginfo_t structure returned by waitid().
