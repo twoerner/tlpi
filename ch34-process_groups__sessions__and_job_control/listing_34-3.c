@@ -54,13 +54,11 @@ main (int argc, UNUSED char *argv[])
 		}
 
 	printf ("PID:%ld PPID:%ld PGID:%ld SID:%ld\n", (long)getpid (), (long)getppid (), (long)getpgrp (), (long)getsid (0));
-
 	alarm (60);
 
-	for (;;)
-		pause ();
-
+	pause ();
 	if (chldPid == 0)
 		_exit (0);
+
 	return 0;
 }
