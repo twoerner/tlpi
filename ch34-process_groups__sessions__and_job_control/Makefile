@@ -1,5 +1,5 @@
 .PHONY: all clean
-ALL = listing_34-2 listing_34-3 listing_34-4 listing_34-5 listing_34-6
+ALL = listing_34-2 listing_34-3 listing_34-4 listing_34-5 listing_34-6 listing_34-7
 CFLAGS = -Wall -Wextra -Wshadow -Werror -Wwrite-strings
 
 all: $(ALL)
