@@ -39,7 +39,7 @@ main (int argc, char *argv[])
 			return 1;
 		}
 
-		printf ("%s: %-5s %2d\n", argv[i],
+		printf ("%s: %-5s %2d", argv[i],
 				(policy == SCHED_OTHER)? "OTHER" :
 				(policy == SCHED_RR)? "RR" :
 				(policy == SCHED_FIFO)? "FIFO" :
@@ -50,6 +50,20 @@ main (int argc, char *argv[])
 				(policy == SCHED_IDLE)? "IDLE" :
 #endif
 				"???", prio.sched_priority);
+
+		if (policy == SCHED_RR) {
+			int ret;
+			struct timespec timeSpec;
+
+			ret = sched_rr_get_interval (pid, &timeSpec);
+			if (ret == -1) {
+				perror ("sched_rr_get_interval()");
+				return 1;
+			}
+			printf (" (interval: %ld[s] %03ld[nsec])", (long)timeSpec.tv_sec, (long)timeSpec.tv_nsec);
+		}
+
+		printf ("\n");
 	}
 
 	return 0;
