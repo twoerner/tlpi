@@ -17,8 +17,7 @@
 #include <string.h>
 #include <unistd.h>
 #include <sys/resource.h>
-
-static int print_rlimits (int resource);
+#include "print_rlimit.h"
 
 int
 main (int argc, char *argv[])
@@ -35,8 +34,8 @@ main (int argc, char *argv[])
 		return 1;
 	}
 
-	printf ("RLIMIT_NPROC before: ");
-	print_rlimits (RLIMIT_NPROC);
+	printf ("before: ");
+	print_rlimit (RLIMIT_NPROC);
 	memset (&rlim, 0, sizeof (rlim));
 
 	// set soft limit
@@ -75,8 +74,8 @@ main (int argc, char *argv[])
 		return 1;
 	}
 
-	printf ("RLIMIT_NPROC after:  ");
-	print_rlimits (RLIMIT_NPROC);
+	printf ("after:  ");
+	print_rlimit (RLIMIT_NPROC);
 
 	for (i=0; ; ++i) {
 		switch ((chldPid = fork ())) {
@@ -92,31 +91,6 @@ main (int argc, char *argv[])
 				break;
 		}
 	}
-
-	return 0;
-}
-
-static int
-print_rlimits (int resource)
-{
-	int ret;
-	struct rlimit rlim;
-
-	ret = getrlimit (resource, &rlim);
-	if (ret == -1)
-		return -1;
-
-	printf ("soft:");
-	if (rlim.rlim_cur == RLIM_INFINITY)
-		printf ("infinite");
-	else
-		printf ("%lld", (long long)rlim.rlim_cur);
-
-	printf ("; hard:");
-	if (rlim.rlim_max == RLIM_INFINITY)
-		printf ("infinite");
-	else
-		printf ("%lld\n", (long long)rlim.rlim_max);
 
 	return 0;
 }
