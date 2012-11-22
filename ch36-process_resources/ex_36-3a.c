@@ -29,6 +29,7 @@ signal_handler (int sig)
 {
 	flag_G = 1;
 	printf ("signal %d (%s) caught\n", sig, strsignal (sig));
+	print_rlimit (RLIMIT_RTTIME);
 }
 
 int
@@ -49,8 +50,9 @@ main (void)
 	for (sig=1; sig<_NSIG; ++sig) {
 		ret = sigaction (sig, &sa, NULL);
 		if (ret == -1)
-			printf ("can't sigaction %s\n", strsignal (sig));
+			printf ("can't sigaction signal %2d (%s)\n", sig, strsignal (sig));
 	}
+	printf ("\n");
 
 	// set rlimits
 	printf ("before ");
@@ -80,7 +82,9 @@ main (void)
 		for (j=0; j<1000000; ++j)
 			if (flag_G) {
 				flag_G = 0;
-				sleep (10);
+				fprintf (stderr, "starting sleep...");
+				sleep (3);
+				fprintf (stderr, "done\n");
 			}
 
 	return 0;
