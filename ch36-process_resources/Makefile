@@ -6,10 +6,11 @@ CFLAGS = -Wall -Wextra -Wshadow -Werror -Wwrite-strings
 
 all: $(ALL)
 
-listing_36-3: print_rlimit.o
-doodle_36-1: print_rlimit.o
-ex_36-3a: print_rlimit.o
+listing_36-3: print_rlimit.c print_rlimit.h
+doodle_36-1: print_rlimit.c print_rlimit.h
+ex_36-3a: print_rlimit.c print_rlimit.h
+ex_36-3b: print_rlimit.c print_rlimit.h
 
 all: $(ALL)
 clean::
-	$(RM) $(ALL) *\.o
+	$(RM) $(ALL)
