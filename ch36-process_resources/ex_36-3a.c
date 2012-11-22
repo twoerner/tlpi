@@ -37,7 +37,6 @@ main (void)
 {
 	int ret;
 	struct sigaction sa;
-	unsigned sig;
 	struct rlimit rlim;
 	struct sched_param prio;
 	volatile unsigned i, j;
@@ -47,12 +46,12 @@ main (void)
 	sigemptyset (&sa.sa_mask);
 	sa.sa_flags = 0;
 	sa.sa_handler = signal_handler;
-	for (sig=1; sig<_NSIG; ++sig) {
-		ret = sigaction (sig, &sa, NULL);
-		if (ret == -1)
-			printf ("can't sigaction signal %2d (%s)\n", sig, strsignal (sig));
+	ret = sigaction (SIGXCPU, &sa, NULL);
+	if (ret == -1) {
+		printf ("can't sigaction signal %2d (%s)\n", SIGXCPU, strsignal (SIGXCPU));
+		perror ("sigaction()");
+		return 1;
 	}
-	printf ("\n");
 
 	// set rlimits
 	printf ("before ");
