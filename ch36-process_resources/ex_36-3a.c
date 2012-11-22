@@ -28,7 +28,7 @@ static void
 signal_handler (int sig)
 {
 	flag_G = 1;
-	printf ("signal %d (%s) caught\n", sig, strsignal (sig));
+	printf ("\nsignal %d (%s) caught\n", sig, strsignal (sig));
 	print_rlimit (RLIMIT_RTTIME);
 }
 
@@ -77,7 +77,8 @@ main (void)
 	}
 
 	// busy loop
-	for (i=0; i<1000000; ++i)
+	for (i=0; i<1000000; ++i) {
+		fprintf (stderr, ".");
 		for (j=0; j<1000000; ++j)
 			if (flag_G) {
 				flag_G = 0;
@@ -85,6 +86,7 @@ main (void)
 				sleep (3);
 				fprintf (stderr, "done\n");
 			}
+	}
 
 	return 0;
 }
