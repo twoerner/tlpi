@@ -23,6 +23,9 @@
 #include "print_rlimit.h"
 
 volatile sig_atomic_t flag_G;
+volatile sig_atomic_t rlimSet_G = 0;
+volatile sig_atomic_t resetLimits_G = 0;
+struct rlimit rlim_G;
 
 static void
 signal_handler (int sig)
@@ -30,16 +33,26 @@ signal_handler (int sig)
 	flag_G = 1;
 	printf ("\nsignal %d (%s) caught\n", sig, strsignal (sig));
 	print_rlimit (RLIMIT_RTTIME);
+
+	if (resetLimits_G == 1)
+		if (rlimSet_G == 1) {
+			fprintf (stderr, "resetting RLIMIT_RTTIME\n");
+			setrlimit (RLIMIT_RTTIME, &rlim_G);
+			print_rlimit (RLIMIT_RTTIME);
+		}
 }
 
 int
-main (void)
+main (int argc, __attribute__((unused)) char *argv[])
 {
 	int ret;
 	struct sigaction sa;
-	struct rlimit rlim;
 	struct sched_param prio;
 	volatile unsigned i, j;
+
+	// check cmdline args
+	if (argc > 1)
+		resetLimits_G = 1;
 
 	// setup signal handler
 	flag_G = 0;
@@ -57,13 +70,14 @@ main (void)
 	printf ("before ");
 	print_rlimit (RLIMIT_RTTIME);
 
-	rlim.rlim_cur = 2 * 1000000;
-	rlim.rlim_max = 8 * 1000000;
-	ret = setrlimit (RLIMIT_RTTIME, &rlim);
+	rlim_G.rlim_cur = 2 * 1000000;
+	rlim_G.rlim_max = 8 * 1000000;
+	ret = setrlimit (RLIMIT_RTTIME, &rlim_G);
 	if (ret == -1) {
 		perror ("setrlimit()");
 		return 1;
 	}
+	rlimSet_G = 1;
 
 	printf ("after  ");
 	print_rlimit (RLIMIT_RTTIME);
