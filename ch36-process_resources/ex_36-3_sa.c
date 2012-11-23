@@ -23,68 +23,43 @@
  */
 
 #include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
 #include <signal.h>
 #include <sched.h>
 #include <unistd.h>
+#include <getopt.h>
 #include <sys/resource.h>
 
-// set to 0 to indicate RLIMIT_CPU
-// set to 15 to indicate RLIMIT_RTTIME
-#define WHICH_LIMIT 15
-
-// set to 1 to include a blocking call, otherwise set to 0
-#define BLOCKING_CALL 0
-
+// function declarations
+static void signal_handler (int sig);
 static void print_rlimit (int resource);
+static void process_cmdline_args (int argc, char *argv[]);
+static void usage (const char *pgm_p);
 
-#if (BLOCKING_CALL == 1)
+// global variables
 static volatile sig_atomic_t flag_G;
-#endif
 static volatile sig_atomic_t rlimSet_G = 0;
 static volatile sig_atomic_t resetLimits_G = 0;
+static volatile sig_atomic_t runBlockingCall_G = 0;
 static struct rlimit rlim_G;
+static int limit_G;
+static const char *limStr_pG = NULL;
 
-#if (WHICH_LIMIT == 0)
-const char *limStr_pG = "RLIMIT_CPU";
-#else
-const char *limStr_pG = "RLIMIT_RTTIME";
-#endif
-
-// UNSAFE
-static void
-signal_handler (int sig)
-{
-#if (BLOCKING_CALL == 1)
-	flag_G = 1;
-#endif
-	printf ("\n\nsignal %d (%s) caught\n", sig, strsignal (sig));
-	print_rlimit (WHICH_LIMIT);
-
-	if (resetLimits_G == 1)
-		if (rlimSet_G == 1) {
-			fprintf (stderr, "resetting %s\n", limStr_pG);
-			setrlimit (WHICH_LIMIT, &rlim_G);
-			print_rlimit (WHICH_LIMIT);
-		}
-}
-
+// functions
 int
-main (int argc, __attribute__((unused)) char *argv[])
+main (int argc, char *argv[])
 {
 	int ret;
 	struct sigaction sa;
 	struct sched_param prio;
 	volatile unsigned i, j;
 
-	// check cmdline args
-	if (argc > 1)
-		resetLimits_G = 1;
+	process_cmdline_args (argc, argv);
 
 	// setup signal handler
-#if (BLOCKING_CALL == 1)
-	flag_G = 0;
-#endif
+	if (runBlockingCall_G)
+		flag_G = 0;
 	sigemptyset (&sa.sa_mask);
 	sa.sa_flags = 0;
 	sa.sa_handler = signal_handler;
@@ -97,16 +72,17 @@ main (int argc, __attribute__((unused)) char *argv[])
 
 	// set rlimits
 	printf ("before ");
-	print_rlimit (WHICH_LIMIT);
+	print_rlimit (limit_G);
 
-#if (WHICH_LIMIT == 0)
-	rlim_G.rlim_cur = 2;
-	rlim_G.rlim_max = 8;
-#else
-	rlim_G.rlim_cur = 2 * 1000000;
-	rlim_G.rlim_max = 8 * 1000000;
-#endif
-	ret = setrlimit (WHICH_LIMIT, &rlim_G);
+	if (limit_G == RLIMIT_CPU) {
+		rlim_G.rlim_cur = 2;
+		rlim_G.rlim_max = 8;
+	}
+	else {
+		rlim_G.rlim_cur = 2 * 1000000;
+		rlim_G.rlim_max = 8 * 1000000;
+	}
+	ret = setrlimit (limit_G, &rlim_G);
 	if (ret == -1) {
 		perror ("setrlimit()");
 		return 1;
@@ -114,7 +90,7 @@ main (int argc, __attribute__((unused)) char *argv[])
 	rlimSet_G = 1;
 
 	printf ("after  ");
-	print_rlimit (WHICH_LIMIT);
+	print_rlimit (limit_G);
 
 	// set -rt priority
 	prio.sched_priority = 1;
@@ -127,16 +103,35 @@ main (int argc, __attribute__((unused)) char *argv[])
 	// busy loop
 	for (i=0; i<1000000; ++i)
 		for (j=0; j<1000000; ++j)
-#if (BLOCKING_CALL == 1)
-			if (flag_G) {
-				flag_G = 0;
-				usleep (1);
+			if (runBlockingCall_G == 1) {
+				if (flag_G) {
+					flag_G = 0;
+					usleep (1);
+				}
 			}
-#else
-			;
-#endif
+			else {
+				;
+			}
 
 	return 0;
+}
+
+// UNSAFE
+static void
+signal_handler (int sig)
+{
+	if (runBlockingCall_G)
+		flag_G = 1;
+
+	printf ("\n\nsignal %d (%s) caught\n", sig, strsignal (sig));
+	print_rlimit (limit_G);
+
+	if (resetLimits_G == 1)
+		if (rlimSet_G == 1) {
+			fprintf (stderr, "resetting %s\n", limStr_pG);
+			setrlimit (limit_G, &rlim_G);
+			print_rlimit (limit_G);
+		}
 }
 
 static void
@@ -198,4 +193,79 @@ print_rlimit (int resource)
 	else
 		printf ("%lld", (long long)rlim.rlim_max);
 	printf ("\n");
+}
+
+static void
+process_cmdline_args (int argc, char *argv[])
+{
+	int c, idx;
+	struct option opts[] = {
+		{"reset-limits", no_argument, 0, 0},
+		{"run-blocking-call", no_argument, 0, 0},
+		{NULL, 0, 0, 0},
+	};
+
+	while (1) {
+		c = getopt_long (argc, argv, "lb", opts, &idx);
+		if (c == -1)
+			break;
+		if (c != 0) {
+			printf ("\n");
+			usage (argv[0]);
+			exit (1);
+		}
+		switch (idx) {
+			case 0:
+				resetLimits_G = 1;
+				break;
+
+			case 1:
+				runBlockingCall_G = 1;
+				break;
+
+			default:
+				printf ("\n");
+				usage (argv[0]);
+				exit (1);
+				break;
+		}
+	}
+
+	// required cmdline arg
+	if ((optind + 1) == argc) {
+		if (strcmp (argv[optind], "RLIMIT_RTTIME") == 0) {
+			limStr_pG = "RLIMIT_RTTIME";
+			limit_G = RLIMIT_RTTIME;
+		}
+		if (strcmp (argv[optind], "RLIMIT_CPU") == 0) {
+			limStr_pG = "RLIMIT_CPU";
+			limit_G = RLIMIT_CPU;
+		}
+	}
+	else {
+		printf ("incorrect number of cmdline args\n\n");
+		usage (argv[0]);
+		exit (1);
+	}
+
+	if (limStr_pG == NULL) {
+		printf ("required cmdline arg not one of 'RLIMIT_RTTIME' or 'RLIMIT_CPU'\n\n");
+		usage (argv[0]);
+		exit (1);
+	}
+}
+
+static void
+usage (const char *pgm_p)
+{
+	printf ("usage: %s [OPTIONS] <limit>\n", pgm_p);
+	printf ("  where:\n");
+	printf ("    OPTIONS:\n");
+	printf ("      --reset-limits        reset the soft limit during the\n");
+	printf ("                            interrupt handler\n");
+	printf ("      --run-blocking-call   when the interrupt handler is called,\n");
+	printf ("                            call a blocking system function\n");
+	printf ("    <limit> is one of:\n");
+	printf ("      RLIMIT_CPU            limit the amount of CPU time\n");
+	printf ("      RLIMIT_RTTIME         limit the amount of non-sleeping CPU time\n");
 }
