@@ -19,6 +19,7 @@
 #include <signal.h>
 #include <sched.h>
 #include <unistd.h>
+#include <time.h>
 #include <sys/resource.h>
 #include "print_rlimit.h"
 
@@ -30,8 +31,11 @@ struct rlimit rlim_G;
 static void
 signal_handler (int sig)
 {
+	time_t now;
+
 	flag_G = 1;
-	printf ("\nsignal %d (%s) caught\n", sig, strsignal (sig));
+	now = time (NULL);
+	printf ("\n%ssignal %d (%s) caught\n", ctime (&now), sig, strsignal (sig));
 	print_rlimit (RLIMIT_RTTIME);
 
 	if (resetLimits_G == 1)

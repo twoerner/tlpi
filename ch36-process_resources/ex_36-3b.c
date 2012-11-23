@@ -14,6 +14,7 @@
 #include <string.h>
 #include <signal.h>
 #include <unistd.h>
+#include <time.h>
 #include <sys/resource.h>
 #include "print_rlimit.h"
 
@@ -25,8 +26,11 @@ volatile sig_atomic_t resetLimits_G = 0;
 static void
 signal_handler (int sig)
 {
+	time_t now;
+
 	flag_G = 1;
-	printf ("\nsignal %d (%s) caught\n", sig, strsignal (sig));
+	now = time (NULL);
+	printf ("\n%ssignal %d (%s) caught\n", ctime (&now), sig, strsignal (sig));
 	print_rlimit (RLIMIT_CPU);
 
 	if (resetLimits_G)
