@@ -22,6 +22,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#define __USE_GNU
 #include <sched.h>
 #include <unistd.h>
 #include <sys/times.h>
@@ -35,6 +36,15 @@ main (void)
 {
 	int ret;
 	struct sched_param prm;
+	cpu_set_t cpuset;
+
+	CPU_ZERO (&cpuset);
+	CPU_SET (0, &cpuset);
+	ret = sched_setaffinity (0, sizeof (cpuset), &cpuset);
+	if (ret == -1) {
+		perror ("sched_setaffinity()");
+		return 1;
+	}
 
 	prm.sched_priority = 1;
 	ret = sched_setscheduler (0, SCHED_FIFO, &prm);
@@ -109,67 +119,4 @@ fn (void)
 
 /*
  * NOTE: this program must be run as the super-user.
- */
-
-/*
- * NOTE: this program only "works" as expected when running on a kernel
- *       compiled with -rt extensions.
- *
- * When run on a "normal" kernel I get:
- *	$ ./ex_35-3 
- *	{21839} starting
- *	{21840} starting
- *	{21839} CPU time consumed: 25
- *	{21840} CPU time consumed: 25
- *	{21839} CPU time consumed: 50
- *	{21840} CPU time consumed: 50
- *	{21839} CPU time consumed: 75
- *	{21840} CPU time consumed: 75
- *	{21839} CPU time consumed: 100
- *	{21840} CPU time consumed: 100
- *	{21839} CPU time consumed: 125
- *	{21840} CPU time consumed: 125
- *	{21839} CPU time consumed: 150
- *	{21840} CPU time consumed: 150
- *	{21839} CPU time consumed: 175
- *	{21840} CPU time consumed: 175
- *	{21839} CPU time consumed: 200
- *	{21840} CPU time consumed: 200
- *	{21839} CPU time consumed: 225
- *	{21840} CPU time consumed: 225
- *	{21839} CPU time consumed: 250
- *	{21840} CPU time consumed: 250
- *	{21839} CPU time consumed: 275
- *	{21840} CPU time consumed: 275
- *	{21839} done
- *	$ {21840} done
- *
- * When run on an -rt kernel I get:
- *	$ ./ex_35-3 
- *	{04714} starting
- *	{04713} starting
- *	{04713} CPU time consumed: 25
- *	{04713} CPU time consumed: 50
- *	{04713} CPU time consumed: 75
- *	{04713} CPU time consumed: 100
- *	{04714} CPU time consumed: 25
- *	{04714} CPU time consumed: 50
- *	{04714} CPU time consumed: 75
- *	{04714} CPU time consumed: 100
- *	{04713} CPU time consumed: 125
- *	{04713} CPU time consumed: 150
- *	{04713} CPU time consumed: 175
- *	{04713} CPU time consumed: 200
- *	{04714} CPU time consumed: 125
- *	{04714} CPU time consumed: 150
- *	{04714} CPU time consumed: 175
- *	{04714} CPU time consumed: 200
- *	{04714} CPU time consumed: 225
- *	{04714} CPU time consumed: 250
- *	{04714} CPU time consumed: 275
- *	{04714} done
- *	{04713} CPU time consumed: 225
- *	{04713} CPU time consumed: 250
- *	{04713} CPU time consumed: 275
- *	{04713} done
  */
