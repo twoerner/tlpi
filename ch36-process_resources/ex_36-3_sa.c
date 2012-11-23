@@ -33,8 +33,14 @@
 // set to 15 to indicate RLIMIT_RTTIME
 #define WHICH_LIMIT 15
 
+// set to 1 to include a blocking call, otherwise set to 0
+#define BLOCKING_CALL 0
+
 static void print_rlimit (int resource);
 
+#if (BLOCKING_CALL == 1)
+static volatile sig_atomic_t flag_G;
+#endif
 static volatile sig_atomic_t rlimSet_G = 0;
 static volatile sig_atomic_t resetLimits_G = 0;
 static struct rlimit rlim_G;
@@ -49,6 +55,9 @@ const char *limStr_pG = "RLIMIT_RTTIME";
 static void
 signal_handler (int sig)
 {
+#if (BLOCKING_CALL == 1)
+	flag_G = 1;
+#endif
 	printf ("\n\nsignal %d (%s) caught\n", sig, strsignal (sig));
 	print_rlimit (WHICH_LIMIT);
 
@@ -73,6 +82,9 @@ main (int argc, __attribute__((unused)) char *argv[])
 		resetLimits_G = 1;
 
 	// setup signal handler
+#if (BLOCKING_CALL == 1)
+	flag_G = 0;
+#endif
 	sigemptyset (&sa.sa_mask);
 	sa.sa_flags = 0;
 	sa.sa_handler = signal_handler;
@@ -115,7 +127,14 @@ main (int argc, __attribute__((unused)) char *argv[])
 	// busy loop
 	for (i=0; i<1000000; ++i)
 		for (j=0; j<1000000; ++j)
+#if (BLOCKING_CALL == 1)
+			if (flag_G) {
+				flag_G = 0;
+				usleep (1);
+			}
+#else
 			;
+#endif
 
 	return 0;
 }
