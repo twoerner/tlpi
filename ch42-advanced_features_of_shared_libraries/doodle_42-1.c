@@ -4,13 +4,13 @@
 
 #include <stdio.h>
 
-void myfunc (int);
+void myfunc (void);
 
 int
 main (void)
 {
 	printf ("calling myfunc()\n");
-	myfunc (42);
+	myfunc ();
 	printf ("done\n");
 
 	return 0;
