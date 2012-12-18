@@ -1,5 +1,5 @@
 .PHONY: all clean
-ALL = listing_42-1 doodle_42-1 doodle_42-2
+ALL = listing_42-1 doodle_42-1 doodle_42-2 doodle_42-3
 CFLAGS = -Wall -Wextra -Wshadow -Werror -Wwrite-strings
 LDFLAGS = -ldl
 PWD := $(shell pwd)
@@ -11,6 +11,9 @@ doodle_42-1: libv1.so
 
 doodle_42-2: libv2.so
 	gcc -g $(CFLAGS) -o doodle_42-2 doodle_42-2.c -Wl,-rpath,$(PWD) -L$(PWD) -lv2
+
+doodle_42-3: libv2.so
+	gcc -g $(CFLAGS) -o doodle_42-3 doodle_42-3.c -Wl,-rpath,$(PWD) -L$(PWD) -lv2
 
 libv1.so: mylib_v1.map mylib_v1.c
 	gcc -g -c -fPIC $(CFLAGS) mylib_v1.c
