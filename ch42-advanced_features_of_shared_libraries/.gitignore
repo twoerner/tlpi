@@ -1,6 +1,9 @@
 listing_42-1
+doodle_42-0
 doodle_42-1
 doodle_42-2
 doodle_42-3
+libv0.so
 libv1.so
-*o
+libv2.so
+*\.o
