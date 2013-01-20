@@ -1,6 +1,6 @@
 .PHONY: all clean
 ALL = listing_42-1 doodle_42-0 doodle_42-1 doodle_42-2 doodle_42-3 doodle_42-4a doodle_42-4b \
-	doodle_42-4c
+	doodle_42-4c doodle_42-4d
 CFLAGS = -Wall -Wextra -Wshadow -Werror -Wwrite-strings
 LDFLAGS = -ldl
 PWD := $(shell pwd)
@@ -40,6 +40,13 @@ libdoodle_42-4.so: libdoodle_42-4.c
 
 doodle_42-4c: doodle_42-4c.c
 	gcc -g $(CFLAGS) -o doodle_42-4c doodle_42-4c.c -export-dynamic $(LDFLAGS)
+
+libdoodle_42-4d.so: libdoodle_42-4.c
+	gcc -g -c -fPIC $(CFLAGS) libdoodle_42-4.c
+	gcc -g -shared -Wl,-Bsymbolic -o libdoodle_42-4d.so libdoodle_42-4.o
+
+doodle_42-4d: doodle_42-4d.c libdoodle_42-4d.so
+	gcc -g $(CFLAGS) -o doodle_42-4d doodle_42-4d.c -Wl,-rpath,$(PWD) -L$(PWD) -ldoodle_42-4d
 
 clean::
 	$(RM) $(ALL) *\.o *\.so

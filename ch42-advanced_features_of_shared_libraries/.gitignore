@@ -6,8 +6,10 @@ doodle_42-3
 doodle_42-4a
 doodle_42-4b
 doodle_42-4c
+doodle_42-4d
 libv0.so
 libv1.so
 libv2.so
 libdoodle_42-4.so
+libdoodle_42-4d.so
 *\.o

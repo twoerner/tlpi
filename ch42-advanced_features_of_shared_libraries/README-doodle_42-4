@@ -235,3 +235,58 @@ as such the output from the runtime linker is:
 
 which is what we expect since a dynamic entry was not created in the
 relocatable object.
+
+-----------------------------------------------------------------------------
+doodle_42-4d:
+
+Continuing on with the book, in section 41.12 it mentions if we want to revert
+the behaviour of what happened in doodle_42-4a (without static) then we can
+use the -Wl,-Bsymbolic parameter to gcc (when building the shared library).
+Doing so we find:
+
+	$ ./doodle_42-4d
+	calling library
+	library myfunc
+
+	calling myfunc() directly
+	main myfunc
+
+Looking at the relocatable object that is created by the link-edit step:
+
+	$ objdump -tTrR doodle_42-4d
+	...
+
+	SYMBOL TABLE:
+	...
+	00000000004007ac g     F .text	0000000000000010              myfunc
+	...
+
+	DYNAMIC SYMBOL TABLE:
+	...
+	00000000004007ac g    DF .text	0000000000000010  Base        myfunc
+	...
+
+This doesn't look promising. The myfunc symbol appears in both the regular and
+the dynamic symbol table. Having it available in the dynamic table makes it
+available to the runtime linker when it needs to resolve the symbols it finds.
+
+But here is where an interesting thing occurs; when we run the program and
+enable the debugging output of the runtime linker we find no references to
+myfunc whatsoever in its output.
+
+So although the link-editor has made the myfunc symbol available in the
+dynamic symbol table, the runtime linker has been told to ignore it. How is
+this accomplished?
+
+If we examine the symbol tables of the libraries themselves we find an
+interesting difference. Using 'objdump -tTrR <lib>" to dump the tables of both
+libraries we find they both include a SYMBOL TABLE, a DYNAMIC SYMBOL TABLE,
+and DYNAMIC RELOCATION RECORDS. In the first case (libdoodle_42-4.so) we find
+an entry in the DYNAMIC RELOCATION RECORDS for myfunc (in addition to entries
+in both the SYMBOL and DYNAMIC SYMBOL TABLEs):
+
+
+	0000000000201008 R_X86_64_JUMP_SLOT  myfunc
+
+However, no such entry exists in the RELOCATION RECORDS for
+libdoodle_42-4d.so.

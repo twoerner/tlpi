@@ -20,7 +20,6 @@
 
 void xyz (void);
 
-/* whether you put a static here or not is significant */
 void
 myfunc (void)
 {
