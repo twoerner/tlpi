@@ -1,0 +1,237 @@
+In Section 41.12 it is pointed out that if a symbol is defined in both a
+relocatable object (executable) and a shared object (library), then the symbol
+in the relocatable object is preferred EVEN IF it gets called from within the
+shared object(!).
+
+However, Section 42.1.6 points out that if the shared object is loaded
+dynamically at run time, then the symbol from the shared object would
+be called instead of the one from the relocatable object UNLESS the
+-export-dynamic (or -rdynamic) option is passed to gcc.
+
+This set of doodles was created to explore these scenarios.
+
+In doodle_42-4a, as noted in the source, specifying "static" storage for the
+myfunc() object affects the above statements. Since the shared object can no
+longer see the relocatable object, the myfunc() from the library is always
+called by the xyz() function:
+
+Without static:
+	$ ./doodle_42-4a
+	calling library
+	main myfunc
+
+	calling myfunc() directly
+	main myfunc
+
+With static:
+	./doodle_42-4a
+	calling library
+	library myfunc
+
+	calling myfunc() directly
+	main myfunc
+
+When there is no static qualifier:
+	$ objdump -tTrR doodle_42-4a
+	...
+
+	SYMBOL TABLE:
+	...
+	00000000004007ac g     F .text  0000000000000010              myfunc
+	...
+
+	DYNAMIC SYMBOL TABLE:
+	...
+	00000000004007ac g    DF .text  0000000000000010  Base        myfunc
+	...
+
+When static is specified:
+	$ objdump -tTrR doodle_42-4a
+	...
+
+	SYMBOL TABLE:
+	...
+	000000000040077c l     F .text  0000000000000010              myfunc
+	...
+
+	[nothing about myfunc in the DYNAMIC SYMBOL TABLE]
+
+
+If we read ld-linux(8) we see that there are some interesting environment
+variables we can set to further investigate what is going on. Therefore with
+this information:
+
+Without static:
+	$ export LD_DEBUG_OUTPUT=out
+	$ export LD_DEBUG=all
+	$ ./doodle_42-4a
+	calling library
+	main myfunc
+
+	calling myfunc() directly
+	main myfunc
+	$ unset LD_DEBUG
+
+If we look in the directory, we'll find a file named "out.<pid>". If we
+examine this output file for instances of myfunc we'll find:
+
+     31681:     symbol=myfunc;  lookup in file=./doodle_42-4a [0]
+     31681:     binding file /home/trevor/devel/code/the_linux_programming_interface__BOOK/ch42-advanced_features_of_shared_libraries/libdoodle_42-4a.so [0] to ./doodle_42-4a [0]: normal symbol `myfunc'
+
+If we then perform the same exercise on the binary that has the static keyword
+we find:
+
+     31935:     symbol=myfunc;  lookup in file=./doodle_42-4a [0] 
+     31935:     symbol=myfunc;  lookup in file=/home/trevor/devel/code/the_linux_programming_interface__BOOK/ch42-advanced_features_of_shared_libraries/libdoodle_42-4a.so [0] 
+     31935:     binding file /home/trevor/devel/code/the_linux_programming_interface__BOOK/ch42-advanced_features_of_shared_libraries/libdoodle_42-4a.so [0] to /home/trevor/devel/code/the_linux_programming_interface__BOOK/ch42-advanced_features_of_shared_libraries/libdoodle_42-4a.so [0]: normal symbol `myfunc'
+
+-----------------------------------------------------------------------------
+Now, on to doodle_42-4b where we dynamically open the shared library using
+dlopen() and friends.
+
+Interestingly in this case, whether or not we qualify the myfunc() found in
+the shared object with "static" makes no difference! The library myfunc() is
+always the one called:
+
+Without static:
+	$ LD_LIBRARY_PATH=. ./doodle_42-4b
+	calling library
+	library myfunc
+
+	calling myfunc() directly
+	main myfunc
+
+With static:
+	$ LD_LIBRARY_PATH=. ./doodle_42-4b
+	calling library
+	library myfunc
+
+	calling myfunc() directly
+	main myfunc
+
+Obviously, since we're not linking doodle_42-4b against the libdoodle_42-4 at
+link time, myfunc is not going to appear in the DYNAMIC SYMBOL TABLE. And
+where it does appear in the SYMBOL TABLE, the only difference between one and
+the other is the symbol's visibility:
+
+Without static:
+	$ objdump -tTrR doodle_42-4b
+	...
+	000000000040086c g     F .text 0000000000000010              myfunc
+	...
+
+With static:
+	$ objdump -tTrR doodle_42-4b
+	...
+	000000000040086c l     F .text 0000000000000010              myfunc
+	...
+
+Now, having a look at the debug output from the runtime linker:
+
+Without static:
+      2739:	symbol=myfunc;  lookup in file=./doodle_42-4b [0]
+      2739:	symbol=myfunc;  lookup in file=/lib64/libdl.so.2 [0]
+      2739:	symbol=myfunc;  lookup in file=/lib64/libc.so.6 [0]
+      2739:	symbol=myfunc;  lookup in file=/lib64/ld-linux-x86-64.so.2 [0]
+      2739:	symbol=myfunc;  lookup in file=./libdoodle_42-4.so [0]
+      2739:	binding file ./libdoodle_42-4.so [0] to ./libdoodle_42-4.so [0]: normal symbol `myfunc'
+
+With static:
+      2940:	symbol=myfunc;  lookup in file=./doodle_42-4b [0]
+      2940:	symbol=myfunc;  lookup in file=/lib64/libdl.so.2 [0]
+      2940:	symbol=myfunc;  lookup in file=/lib64/libc.so.6 [0]
+      2940:	symbol=myfunc;  lookup in file=/lib64/ld-linux-x86-64.so.2 [0]
+      2940:	symbol=myfunc;  lookup in file=./libdoodle_42-4.so [0]
+      2940:	binding file ./libdoodle_42-4.so [0] to ./libdoodle_42-4.so [0]: normal symbol `myfunc'
+
+Which is the same, which is why we get the same behaviour.
+
+-----------------------------------------------------------------------------
+doodle_42-4c:
+
+Now, to continue with what the book says, if we then add '-export-dynamic' to
+the list of gcc options in the build step we then get the following behaviour:
+
+
+Without static:
+	$ LD_LIBRARY_PATH=. ./doodle_42-4c
+	calling library
+	main myfunc
+
+	calling myfunc() directly
+	main myfunc
+
+Now here's a _VERY_ interesting observation. When we look at the symbol
+tables, we find there is an entry in the DYNAMIC SYMBOL TABLE!! (even though
+we never specified anything dynamic about myfunc!!):
+
+	$ objdump -tTrR doodle_42-4c
+	...
+
+	SYMBOL TABLE:
+	...
+	0000000000400acc g     F .text	0000000000000010              myfunc
+	...
+
+	DYNAMIC SYMBOL TABLE:
+	...
+	0000000000400acc g    DF .text	0000000000000010  Base        myfunc
+	...
+
+	$ ldd doodle_42-4c
+		linux-vdso.so.1 (0x00007fffb15ff000)
+		libdl.so.2 => /lib64/libdl.so.2 (0x00007f3a84994000)
+		libc.so.6 => /lib64/libc.so.6 (0x00007f3a845ef000)
+		/lib64/ld-linux-x86-64.so.2 (0x00007f3a84b98000)
+
+
+If we then enable the debug output of the runtime linker:
+
+	$ export LD_DEBUG=all
+
+	$ LD_LIBRARY_PATH=. ./doodle_42-4c
+	calling library
+	main myfunc
+
+	calling myfunc() directly
+	main myfunc
+	$ unset LD_DEBUG
+
+Then, looking at the output file:
+
+      4093:	symbol=myfunc;  lookup in file=./doodle_42-4c [0]
+      4093:	binding file ./libdoodle_42-4.so [0] to ./doodle_42-4c [0]: normal symbol `myfunc'
+
+And performing the same exercise with static:
+
+	$ objdump -tTrR doodle_42-4c
+	...
+
+	SYMBOL TABLE:
+	...
+	0000000000400a9c l     F .text	0000000000000010              myfunc
+	...
+
+	[and nothing in the dynamic table, despite specifying -export-dynamic
+	on the gcc build line!]
+
+as such the output from the runtime linker is:
+
+	$ export LD_DEBUG=all
+	$ LD_LIBRARY_PATH=. ./doodle_42-4c
+	calling library
+	library myfunc
+
+	calling myfunc() directly
+	main myfunc
+	$ unset LD_DEBUG
+
+      4785:	symbol=myfunc;  lookup in file=./doodle_42-4c [0]
+      4785:	symbol=myfunc;  lookup in file=/lib64/libdl.so.2 [0]
+      4785:	symbol=myfunc;  lookup in file=/lib64/libc.so.6 [0]
+      4785:	symbol=myfunc;  lookup in file=/lib64/ld-linux-x86-64.so.2 [0]
+      4785:	symbol=myfunc;  lookup in file=./libdoodle_42-4.so [0]
+      4785:	binding file ./libdoodle_42-4.so [0] to ./libdoodle_42-4.so [0]: normal symbol `myfunc'
+
+which is what we expect since a dynamic entry was not created in the
+relocatable object.
