@@ -12,4 +12,6 @@ libv1.so
 libv2.so
 libdoodle_42-4.so
 libdoodle_42-4d.so
+doodle_static.a
+doodle_static_42-1
 *\.o

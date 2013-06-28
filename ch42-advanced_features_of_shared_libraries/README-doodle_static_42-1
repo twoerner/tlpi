@@ -1,0 +1,69 @@
+The question asked and answered by this doodle is:
+
+	When linking to a static archive, if one function is needed, is
+	the entire contents of the module in which that one function is
+	found included, or just the one function?
+
+So I make a static archive (doodle_static.a) that includes 5 functions from
+two different modules:
+
+	module doodle_static_1.o:
+		func1_1
+		func1_2
+		func1_3
+	module doodle_static_2.o:
+		func2_1
+		func2_2
+
+Then I write a main which links to only one of the functions (func1_1) and
+see what gets included in the executable:
+
+	$ nm doodle_static_42-1
+	0000000000600e18 d _DYNAMIC
+	0000000000601000 d _GLOBAL_OFFSET_TABLE_
+	0000000000400640 R _IO_stdin_used
+			 w _ITM_deregisterTMCloneTable
+			 w _ITM_registerTMCloneTable
+			 w _Jv_RegisterClasses
+	00000000004007d8 r __FRAME_END__
+	0000000000600e10 d __JCR_END__
+	0000000000600e10 d __JCR_LIST__
+	0000000000601040 D __TMC_END__
+	0000000000601040 B __bss_start
+	0000000000601030 D __data_start
+	0000000000400510 t __do_global_dtors_aux
+	0000000000600e08 t __do_global_dtors_aux_fini_array_entry
+	0000000000601038 D __dso_handle
+	0000000000600e00 t __frame_dummy_init_array_entry
+	0000000000400654 r __func__.2161
+	000000000040064c r __func__.2165
+	0000000000400644 r __func__.2169
+			 w __gmon_start__
+	0000000000600e08 t __init_array_end
+	0000000000600e00 t __init_array_start
+	0000000000400630 T __libc_csu_fini
+	00000000004005a0 T __libc_csu_init
+			 U __libc_start_main@@GLIBC_2.2.5
+	0000000000601040 D _edata
+	0000000000601048 B _end
+	0000000000400634 T _fini
+	0000000000400408 T _init
+	0000000000400470 T _start
+	0000000000601040 b completed.6121
+	0000000000601030 W data_start
+	00000000004004a0 t deregister_tm_clones
+	0000000000400530 t frame_dummy
+	000000000040056c T func1_1
+	000000000040057c T func1_2
+	000000000040058c T func1_3
+	000000000040055c T main
+			 U puts@@GLIBC_2.2.5
+	00000000004004d0 t register_tm_clones
+
+Although the static linking was smart enough to not include any of the func2_*
+functions, it did include all the func1_* functions even though only func1_1
+was required.
+
+Therefore, when linking to a static archive, all of the functions from a given
+module are included when any part of that module is linked in. Or, all parts
+of a module are included when any part is required.
