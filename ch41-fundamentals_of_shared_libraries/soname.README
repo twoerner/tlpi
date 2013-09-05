@@ -1,0 +1,17 @@
+README file for the soname doodle
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+This doodle demonstrates a little soname abuse.
+
+I create a program (soname) that calls a function "my_func()" which it expects
+is provided by a shared library.
+
+On "soname"'s compile line we see that it is explicitly linked to the shared
+object "foo" (-lfoo). However, as part of building libfoo we "accidentally"
+set libfoo's soname to "libbar".
+
+libfoo and libbar both have "my_func()" functions which are written so as to
+easily distinguish which one is actually called. When we run "soname" we see
+that libbar's "my_func()" is actually called. Additionally, when we run
+"objdump -p soname" we see that the application's NEEDED lists libbar.so and
+not libfoo.so.

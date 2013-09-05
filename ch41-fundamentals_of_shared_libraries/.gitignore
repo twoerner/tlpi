@@ -3,3 +3,6 @@ d1/modx1.o
 d1/libx1.so
 d1/d2/modx2.o
 d1/d2/libx2.so
+soname
+libfoo.so
+libbar.so
