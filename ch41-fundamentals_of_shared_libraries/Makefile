@@ -1,5 +1,5 @@
 .PHONY: all clean
-ALL = doodle_41-1 soname
+ALL = doodle_41-1 soname nosoname
 CFLAGS = -Wall -Wextra -Wshadow -Werror -Wwrite-strings
 PWD := $(shell pwd)
 
@@ -18,6 +18,11 @@ libfoo.so: libfoo.c
 libbar.so: libbar.c
 	gcc $(CFLAGS) -g -fPIC -shared -o libbar.so libbar.c
 
+nosoname: nosoname.c libnsn.so.2.0.6
+	gcc $(CFLAGS) -g -o nosoname nosoname.c -Wl,-rpath,$(PWD) libnsn.so.2.0.6
+libnsn.so.2.0.6: libnsn.c
+	gcc $(CFLAGS) -g -fPIC -shared -o libnsn.so.2.0.6 libnsn.c
+
 clean::
-	$(RM) $(ALL) libfoo.so libbar.so
+	$(RM) $(ALL) libfoo.so libbar.so libnsn.so.2.0.6
 	$(MAKE) -C d1 clean

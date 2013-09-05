@@ -1,0 +1,140 @@
+README file for the nosoname doodle
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+This doodle demonstrates soname omission.
+
+I create a program (nosoname) that links to a shared library that does not
+have a soname specified. First off, you can see that the compile line is a bit
+screwy since it is not possible to use the standard "-lnsn" notation. In any
+case you can use "ldd" to demonstrate to yourself that the application is
+dynamically linked to the libnsn shared library.
+
+	$ ldd nosoname
+		linux-vdso.so.1 (0x00007fff9539b000)
+		libnsn.so.2.0.6 => /home/trevor/devel/code/the_linux_programming_interface__BOOK/ch41-fundamentals_of_shared_libraries/libnsn.so.2.0.6 (0x00007fc74b2fa000)
+		libc.so.6 => /lib64/libc.so.6 (0x00007fc74af2d000)
+		/lib64/ld-linux-x86-64.so.2 (0x00007fc74b4fc000)
+
+If we look at the libnsn.so.2.0.6 shared library we can prove that no soname
+is included:
+
+	$ objdump -p libnsn.so.2.0.6 
+
+	libnsn.so.2.0.6:     file format elf64-x86-64
+
+	Program Header:
+	    LOAD off    0x0000000000000000 vaddr 0x0000000000000000 paddr 0x0000000000000000 align 2**21
+		 filesz 0x0000000000000764 memsz 0x0000000000000764 flags r-x
+	    LOAD off    0x0000000000000df0 vaddr 0x0000000000200df0 paddr 0x0000000000200df0 align 2**21
+		 filesz 0x0000000000000240 memsz 0x0000000000000248 flags rw-
+	 DYNAMIC off    0x0000000000000e08 vaddr 0x0000000000200e08 paddr 0x0000000000200e08 align 2**3
+		 filesz 0x00000000000001d0 memsz 0x00000000000001d0 flags rw-
+	    NOTE off    0x00000000000001c8 vaddr 0x00000000000001c8 paddr 0x00000000000001c8 align 2**2
+		 filesz 0x0000000000000024 memsz 0x0000000000000024 flags r--
+	EH_FRAME off    0x00000000000006e0 vaddr 0x00000000000006e0 paddr 0x00000000000006e0 align 2**2
+		 filesz 0x000000000000001c memsz 0x000000000000001c flags r--
+	   STACK off    0x0000000000000000 vaddr 0x0000000000000000 paddr 0x0000000000000000 align 2**3
+		 filesz 0x0000000000000000 memsz 0x0000000000000000 flags rw-
+	   RELRO off    0x0000000000000df0 vaddr 0x0000000000200df0 paddr 0x0000000000200df0 align 2**0
+		 filesz 0x0000000000000210 memsz 0x0000000000000210 flags r--
+
+	Dynamic Section:
+	  NEEDED               libc.so.6
+	  INIT                 0x0000000000000588
+	  FINI                 0x00000000000006d4
+	  INIT_ARRAY           0x0000000000200df0
+	  INIT_ARRAYSZ         0x0000000000000008
+	  FINI_ARRAY           0x0000000000200df8
+	  FINI_ARRAYSZ         0x0000000000000008
+	  HASH                 0x00000000000001f0
+	  GNU_HASH             0x0000000000000238
+	  STRTAB               0x00000000000003b0
+	  SYMTAB               0x0000000000000278
+	  STRSZ                0x00000000000000ab
+	  SYMENT               0x0000000000000018
+	  PLTGOT               0x0000000000201000
+	  PLTRELSZ             0x0000000000000030
+	  PLTREL               0x0000000000000007
+	  JMPREL               0x0000000000000558
+	  RELA                 0x0000000000000498
+	  RELASZ               0x00000000000000c0
+	  RELAENT              0x0000000000000018
+	  VERNEED              0x0000000000000478
+	  VERNEEDNUM           0x0000000000000001
+	  VERSYM               0x000000000000045c
+	  RELACOUNT            0x0000000000000003
+
+	Version References:
+	  required from libc.so.6:
+	    0x09691a75 0x00 02 GLIBC_2.2.5
+
+If we look at the application itself we can see that its NEEDED links to a
+very specific version of the library (and only that version):
+
+	$ objdump -p nosoname
+
+	nosoname:     file format elf64-x86-64
+
+	Program Header:
+	    PHDR off    0x0000000000000040 vaddr 0x0000000000400040 paddr 0x0000000000400040 align 2**3
+		 filesz 0x00000000000001f8 memsz 0x00000000000001f8 flags r-x
+	  INTERP off    0x0000000000000238 vaddr 0x0000000000400238 paddr 0x0000000000400238 align 2**0
+		 filesz 0x000000000000001c memsz 0x000000000000001c flags r--
+	    LOAD off    0x0000000000000000 vaddr 0x0000000000400000 paddr 0x0000000000400000 align 2**21
+		 filesz 0x000000000000098c memsz 0x000000000000098c flags r-x
+	    LOAD off    0x0000000000000dd0 vaddr 0x0000000000600dd0 paddr 0x0000000000600dd0 align 2**21
+		 filesz 0x0000000000000278 memsz 0x0000000000000280 flags rw-
+	 DYNAMIC off    0x0000000000000de8 vaddr 0x0000000000600de8 paddr 0x0000000000600de8 align 2**3
+		 filesz 0x0000000000000210 memsz 0x0000000000000210 flags rw-
+	    NOTE off    0x0000000000000254 vaddr 0x0000000000400254 paddr 0x0000000000400254 align 2**2
+		 filesz 0x0000000000000044 memsz 0x0000000000000044 flags r--
+	EH_FRAME off    0x0000000000000880 vaddr 0x0000000000400880 paddr 0x0000000000400880 align 2**2
+		 filesz 0x0000000000000034 memsz 0x0000000000000034 flags r--
+	   STACK off    0x0000000000000000 vaddr 0x0000000000000000 paddr 0x0000000000000000 align 2**3
+		 filesz 0x0000000000000000 memsz 0x0000000000000000 flags rw-
+	   RELRO off    0x0000000000000dd0 vaddr 0x0000000000600dd0 paddr 0x0000000000600dd0 align 2**0
+		 filesz 0x0000000000000230 memsz 0x0000000000000230 flags r--
+
+	Dynamic Section:
+	  NEEDED               libnsn.so.2.0.6
+	  NEEDED               libc.so.6
+	  RPATH                /home/trevor/devel/code/the_linux_programming_interface__BOOK/ch41-fundamentals_of_shared_libraries
+	  RUNPATH              /home/trevor/devel/code/the_linux_programming_interface__BOOK/ch41-fundamentals_of_shared_libraries
+	  INIT                 0x0000000000400630
+	  FINI                 0x0000000000400854
+	  INIT_ARRAY           0x0000000000600dd0
+	  INIT_ARRAYSZ         0x0000000000000008
+	  FINI_ARRAY           0x0000000000600dd8
+	  FINI_ARRAYSZ         0x0000000000000008
+	  HASH                 0x0000000000400298
+	  GNU_HASH             0x00000000004002e0
+	  STRTAB               0x0000000000400450
+	  SYMTAB               0x0000000000400318
+	  STRSZ                0x0000000000000129
+	  SYMENT               0x0000000000000018
+	  DEBUG                0x0000000000000000
+	  PLTGOT               0x0000000000601000
+	  PLTRELSZ             0x0000000000000060
+	  PLTREL               0x0000000000000007
+	  JMPREL               0x00000000004005d0
+	  RELA                 0x00000000004005b8
+	  RELASZ               0x0000000000000018
+	  RELAENT              0x0000000000000018
+	  VERNEED              0x0000000000400598
+	  VERNEEDNUM           0x0000000000000001
+	  VERSYM               0x000000000040057a
+
+	Version References:
+	  required from libc.so.6:
+	    0x09691a75 0x00 02 GLIBC_2.2.5
+
+Thus if new "2" versions of this library become available, nosoname will not
+use them, and if version 2.0.6 of libnsn is removed, nosoname will not be able
+to run.
+
+In other words, if the soname is omitted from the shared object the library's
+name becomes the soname and if the library's name includes a very specific
+version string, then only that specific name (i.e. version) can ever be used
+with the thing which links to it. In other words, the flexibility (of being
+able to use a newer library of the same base version) that comes with shared
+libraries is lost.

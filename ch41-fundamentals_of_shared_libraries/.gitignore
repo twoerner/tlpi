@@ -6,3 +6,5 @@ d1/d2/libx2.so
 soname
 libfoo.so
 libbar.so
+nosoname
+libnsn.so.2.0.6
