@@ -163,8 +163,8 @@ process_cmdline_args(int argc, char *argv[])
 			break;
 		switch (c) {
 			case 'h':
-				printf("help\n");
-				break;
+				usage(argv[0]);
+				exit(EXIT_SUCCESS);
 
 			case 'c':
 				if (sscanf(optarg, "%zd", &tmp) != 1) {
