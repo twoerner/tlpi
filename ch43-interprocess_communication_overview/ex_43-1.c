@@ -139,7 +139,7 @@ usage(const char *cmd_p)
 {
 	printf("usage: %s {-s|--block-size} S {-c|--block-cnt} C [options]\n", cmd_p);
 	printf("  where\n");
-	printf("    -s|--block-size S            specify the block size \"S\"to use\n");
+	printf("    -s|--block-size S            specify the block size \"S\" to use\n");
 	printf("    -c|--block-cnt  C            specify the block count \"C\" to use\n");
 	printf("  options\n");
 	printf("    -h|--help                    display this help\n");
